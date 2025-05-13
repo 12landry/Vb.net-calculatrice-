@@ -1,0 +1,61 @@
+Public Class Form1
+    Dim operation As String = ""
+    Dim valeur1 As Double = 0
+    Dim valeur2 As Double = 0
+    Dim operationEnCours As Boolean = False
+
+    Private Sub Chiffre_Click(sender As Object, e As EventArgs) Handles _
+        btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click,
+        btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
+
+        Dim bouton As Button = CType(sender, Button)
+
+        If txtEcran.Text = "0" Or operationEnCours Then
+            txtEcran.Text = bouton.Text
+        Else
+            txtEcran.Text &= bouton.Text
+        End If
+
+        operationEnCours = False
+    End Sub
+
+    Private Sub Operateur_Click(sender As Object, e As EventArgs) Handles _
+        btnPlus.Click, btnMoins.Click, btnMult.Click, btnDiv.Click
+
+        Dim bouton As Button = CType(sender, Button)
+        valeur1 = Double.Parse(txtEcran.Text)
+        operation = bouton.Text
+        operationEnCours = True
+    End Sub
+
+    Private Sub btnEgal_Click(sender As Object, e As EventArgs) Handles btnEgal.Click
+        valeur2 = Double.Parse(txtEcran.Text)
+        Dim resultat As Double
+
+        Select Case operation
+            Case "+"
+                resultat = valeur1 + valeur2
+            Case "-"
+                resultat = valeur1 - valeur2
+            Case "*"
+                resultat = valeur1 * valeur2
+            Case "/"
+                If valeur2 <> 0 Then
+                    resultat = valeur1 / valeur2
+                Else
+                    MessageBox.Show("Division par zéro interdite")
+                    Exit Sub
+                End If
+        End Select
+
+        txtEcran.Text = resultat.ToString()
+        operationEnCours = True
+    End Sub
+
+    Private Sub btnC_Click(sender As Object, e As EventArgs) Handles btnC.Click
+        txtEcran.Text = "0"
+        valeur1 = 0
+        valeur2 = 0
+        operation = ""
+    End Sub
+End Class
